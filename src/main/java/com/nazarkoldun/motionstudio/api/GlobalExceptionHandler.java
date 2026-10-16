@@ -14,6 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
@@ -24,8 +25,8 @@ public class GlobalExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(NotFoundException.class)
-    ResponseEntity<ApiError> notFound(NotFoundException e, HttpServletRequest request) {
+    @ExceptionHandler({NotFoundException.class, NoResourceFoundException.class})
+    ResponseEntity<ApiError> notFound(Exception e, HttpServletRequest request) {
         return build(HttpStatus.NOT_FOUND, e.getMessage(), request, null);
     }
 

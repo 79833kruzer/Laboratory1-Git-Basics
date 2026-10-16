@@ -1,13 +1,11 @@
-FROM eclipse-temurin:21-jdk AS build
+FROM maven:3.9.11-eclipse-temurin-21 AS build
 WORKDIR /workspace
 
-COPY mvnw pom.xml ./
-COPY .mvn .mvn
-RUN sed -i 's/\r$//' mvnw && chmod +x mvnw
-RUN --mount=type=cache,target=/root/.m2 ./mvnw -B -q dependency:go-offline
+COPY pom.xml .
+RUN --mount=type=cache,target=/root/.m2 mvn -B -q dependency:go-offline
 
 COPY src src
-RUN --mount=type=cache,target=/root/.m2 ./mvnw -B -q -DskipTests package \
+RUN --mount=type=cache,target=/root/.m2 mvn -B -q package \
     && cp target/motion-studio-*.jar app.jar
 
 FROM eclipse-temurin:21-jre

@@ -22,8 +22,8 @@ fullscreen **Showcase** with transitions between them.
 
 ## Tech stack
 
-Java 17+, Spring Boot 3.5 (Web, Data JPA, Validation), H2 database (file `./data`),
-vanilla HTML/CSS/JS frontend served by Spring Boot, JUnit 5 + MockMvc.
+Java 21, Spring Boot 3.5 (Web, Data JPA, Validation), H2 database,
+vanilla HTML/CSS/JS frontend served by Spring Boot, JUnit 5 + MockMvc, Docker.
 
 ## Architecture
 
@@ -62,25 +62,9 @@ All components are Spring beans, i.e. **singletons**. A request goes through:
 
 Validation errors return `400` with `fieldErrors`, missing entities `404`, conflicts `409`.
 
-## Running locally
+## Running
 
-Requirements: **JDK 17 or newer** (Maven is not needed, the wrapper downloads it).
-
-```bash
-# Windows
-mvnw.cmd spring-boot:run
-# Linux / macOS
-./mvnw spring-boot:run
-```
-
-Open <http://localhost:8080>. The H2 console is at <http://localhost:8080/h2-console>
-(JDBC URL `jdbc:h2:file:./data/motionstudio`, user `sa`, empty password).
-
-Run the tests with `mvnw.cmd test` / `./mvnw test`.
-
-## Running with Docker
-
-Only Docker is required (no JDK on the host):
+Only Docker is required:
 
 ```bash
 docker compose up -d --build
@@ -88,7 +72,8 @@ docker compose logs -f
 docker compose down
 ```
 
-The application is available at <http://localhost:8080>. The H2 database is kept in the
+The application is available at <http://localhost:8080>. Tests run during the image build,
+so the image is not created if any of them fail. The H2 database is kept in the
 `motion-data` volume, so data survives container restarts (`docker compose down -v` removes it).
 
 ## Screenshots

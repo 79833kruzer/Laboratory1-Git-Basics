@@ -13,7 +13,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Fills an empty database with a starter set of presets and scenes. */
 @Component
 public class DataSeeder implements CommandLineRunner {
 

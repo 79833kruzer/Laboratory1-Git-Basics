@@ -12,10 +12,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Arrays;
 
-/**
- * Middleware that attaches a {@link StudioSession} to every API request.
- * The session id travels in an HttpOnly cookie.
- */
 @Component
 @Order(2)
 public class SessionFilter extends OncePerRequestFilter {

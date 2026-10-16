@@ -1,9 +1,5 @@
 package com.nazarkoldun.motionstudio.model;
 
-/**
- * Text effects supported by the studio. Every constant maps to a CSS
- * {@code @keyframes} rule in the frontend (see {@code styles.css}).
- */
 public enum EffectType {
     FADE("Fade In", "ms-fade", Split.CHAR, "Letters softly appear one after another"),
     RISE("Rise", "ms-rise", Split.CHAR, "Letters float up from below"),

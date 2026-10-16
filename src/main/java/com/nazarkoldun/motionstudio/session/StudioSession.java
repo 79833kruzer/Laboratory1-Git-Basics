@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-/** State of one visitor, kept in memory by {@link SessionManager}. */
 public class StudioSession {
 
     private static final int HISTORY_SIZE = 10;
@@ -29,7 +28,6 @@ public class StudioSession {
         requestCount.incrementAndGet();
     }
 
-    /** @return {@code true} if the scene is liked after the call */
     public boolean toggleLike(Long sceneId) {
         if (likedSceneIds.remove(sceneId)) {
             return false;

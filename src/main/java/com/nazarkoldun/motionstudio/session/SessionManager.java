@@ -13,10 +13,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Singleton (Spring's default bean scope) that owns all visitor sessions.
- * Sessions live in memory and expire after a period of inactivity.
- */
 @Component
 public class SessionManager {
 
@@ -29,7 +25,6 @@ public class SessionManager {
         this.ttl = ttl;
     }
 
-    /** Returns the live session with the given id, or creates a new one. */
     public StudioSession resolve(String sessionId) {
         StudioSession session = Optional.ofNullable(sessionId)
                 .map(sessions::get)
@@ -43,7 +38,6 @@ public class SessionManager {
         return Optional.ofNullable(sessions.get(sessionId));
     }
 
-    /** Removes a deleted scene from every session (likes, history). */
     public void forgetScene(Long sceneId) {
         sessions.values().forEach(s -> s.forgetScene(sceneId));
     }

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.time.Instant;
 
-/** A piece of styled text together with the animation used to reveal it. */
 @Entity
 @Table(name = "scenes")
 public class Scene {

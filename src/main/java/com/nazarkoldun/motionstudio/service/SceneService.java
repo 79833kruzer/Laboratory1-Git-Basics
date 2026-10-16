@@ -72,7 +72,6 @@ public class SceneService {
         log.info("Deleted scene #{} '{}'", id, scene.getTitle());
     }
 
-    /** Registers that the scene was played and returns its fresh state. */
     @Transactional
     public Scene play(Long id, StudioSession session) {
         if (scenes.incrementPlays(id) == 0) {
@@ -82,7 +81,6 @@ public class SceneService {
         return get(id);
     }
 
-    /** Likes or un-likes a scene for the current session (one like per session). */
     @Transactional
     public Scene toggleLike(Long id, StudioSession session) {
         get(id);

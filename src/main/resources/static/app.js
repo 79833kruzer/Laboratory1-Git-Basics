@@ -1,9 +1,5 @@
 'use strict';
 
-/* =========================================================================
- *  Motion Studio frontend (vanilla JS, talks to the Spring Boot REST API)
- * ========================================================================= */
-
 const state = {
     meta: null,
     presets: [],
@@ -16,7 +12,6 @@ const state = {
 const $ = (sel, root = document) => root.querySelector(sel);
 const field = (form, name) => form.elements.namedItem(name);
 
-/** Tiny DOM builder: h('div', {class: 'x', onclick: fn}, 'text', childNode) */
 function h(tag, props = {}, ...children) {
     const el = document.createElement(tag);
     for (const [key, value] of Object.entries(props)) {
@@ -36,8 +31,6 @@ function debounce(fn, ms) {
     let t;
     return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
 }
-
-/* ------------------------------------------------------------------ API */
 
 async function api(path, { method = 'GET', body } = {}) {
     const res = await fetch('/api' + path, {
@@ -66,8 +59,6 @@ function toast(message, type = 'ok') {
     setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 300); }, 3200);
 }
 
-/* ------------------------------------------------------ animation engine */
-
 function hexToRgb(hex) {
     const n = parseInt(hex.slice(1), 16);
     return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
@@ -84,17 +75,11 @@ function countUnits(text, preset) {
         : [...text.replace(/\s/g, '')].length;
 }
 
-/** How long (ms) a single play of the animation takes; infinite loops count as two cycles. */
 function animationLength(text, preset) {
     const cycles = preset.iterations === 0 ? 2 : preset.iterations;
     return preset.delayMs + Math.max(0, countUnits(text, preset) - 1) * preset.staggerMs + preset.durationMs * cycles;
 }
 
-/**
- * Renders text into target, splitting it into letters or words and giving each one
- * the preset's CSS animation with an increasing delay (stagger). Re-rendering restarts it.
- * look = {text, fontCss, fontSizePx, colorFrom, colorTo}
- */
 function renderAnimated(target, look, preset, { fontScale = 1, maxFontPx = Infinity } = {}) {
     const size = Math.min(look.fontSizePx * fontScale, maxFontPx);
     const wrap = h('div', { class: 'ms-text', style: { fontFamily: look.fontCss, fontSize: size + 'px' } });
@@ -137,8 +122,6 @@ const sceneLook = scene => ({ ...scene, fontCss: scene.fontCss ?? fontCss(scene.
 const presetById = id => state.presets.find(p => p.id === Number(id));
 const iterLabel = p => (p.iterations === 0 ? '∞' : '×' + p.iterations);
 
-/* -------------------------------------------------------------- session */
-
 async function refreshSession() {
     try {
         const s = await api('/session');
@@ -146,10 +129,8 @@ async function refreshSession() {
         $('#sessionChip').textContent =
             `sid ${s.id} · ${s.requestCount} req · ♥ ${s.likedSceneIds.length} · ${s.activeSessions} online`;
         renderRecent();
-    } catch { /* not critical */ }
+    } catch { }
 }
-
-/* --------------------------------------------------------------- views */
 
 const VIEWS = ['studio', 'presets', 'gallery'];
 
@@ -174,8 +155,6 @@ function switchView(name) {
         view.classList.add('fallback-in');
     }
 }
-
-/* -------------------------------------------------------------- studio */
 
 const sceneForm = $('#sceneForm');
 
@@ -274,8 +253,6 @@ sceneForm.addEventListener('input', e => {
     else replaySoon();
 });
 
-/* ------------------------------------------------------------- presets */
-
 const PREVIEW_LOOK = { fontCss: "'Space Grotesk', sans-serif", fontSizePx: 34, colorFrom: '#f9a8d4', colorTo: '#a78bfa' };
 
 async function loadPresets() {
@@ -342,7 +319,6 @@ function readPresetForm() {
     };
 }
 
-/** Builds a preset-like object from the dialog so it can be previewed before saving. */
 function previewPresetFromForm() {
     const data = readPresetForm();
     const effect = state.meta.effects.find(e => e.code === data.effect);
@@ -389,8 +365,6 @@ presetForm.addEventListener('submit', async e => {
         $('#presetError').textContent = describeError(err);
     }
 });
-
-/* ------------------------------------------------------------- gallery */
 
 async function loadScenes() {
     const q = $('#searchInput').value.trim();
@@ -480,8 +454,6 @@ function renderRecent() {
 
 $('#searchInput').addEventListener('input', debounce(loadScenes, 250));
 
-/* ------------------------------------------------------------ showcase */
-
 const showcase = { list: [], index: 0, timer: null };
 
 async function openShowcase() {
@@ -535,8 +507,6 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') nextSlide(1);
     if (e.key === 'ArrowLeft') nextSlide(-1);
 });
-
-/* ---------------------------------------------------------------- init */
 
 function animateBrand() {
     renderAnimated($('#brand'),

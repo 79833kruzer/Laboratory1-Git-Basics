@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.time.Instant;
 
-/** A reusable, named animation configuration (effect + timing). */
 @Entity
 @Table(name = "animation_presets")
 public class AnimationPreset {
@@ -30,11 +29,9 @@ public class AnimationPreset {
     @Column(nullable = false)
     private int delayMs;
 
-    /** Extra delay added for every next letter / word. */
     @Column(nullable = false)
     private int staggerMs;
 
-    /** Number of repetitions, 0 means infinite. */
     @Column(nullable = false)
     private int iterations;
 

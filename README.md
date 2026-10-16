@@ -78,6 +78,19 @@ Open <http://localhost:8080>. The H2 console is at <http://localhost:8080/h2-con
 
 Run the tests with `mvnw.cmd test` / `./mvnw test`.
 
+## Running with Docker
+
+Only Docker is required (no JDK on the host):
+
+```bash
+docker compose up -d --build
+docker compose logs -f
+docker compose down
+```
+
+The application is available at <http://localhost:8080>. The H2 database is kept in the
+`motion-data` volume, so data survives container restarts (`docker compose down -v` removes it).
+
 ## Screenshots
 
 See the [`doc`](doc) directory.

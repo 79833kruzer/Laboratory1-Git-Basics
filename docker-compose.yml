@@ -1,0 +1,16 @@
+services:
+  motion-studio:
+    build: .
+    image: motion-studio:latest
+    container_name: motion-studio
+    ports:
+      - "8080:8080"
+    environment:
+      JAVA_OPTS: "-XX:MaxRAMPercentage=75"
+      STUDIO_SESSION_TTL: "PT30M"
+    volumes:
+      - motion-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  motion-data:
